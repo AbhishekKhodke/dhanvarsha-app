@@ -42,6 +42,7 @@ import { Logo } from '@/components/logo';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import { Separator } from '@/components/ui/separator';
 
 export function Header() {
   const [userName, setUserName] = useState<string | null>(null);
@@ -199,18 +200,31 @@ export function Header() {
            ))}
           <DropdownMenuSeparator />
            <div className="p-2">
-            <div className="flex items-center justify-between rounded-lg p-2 hover:bg-accent cursor-pointer">
-                <button
+              <div className="flex items-center justify-between p-1 rounded-md">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex items-center"
                 >
-                    {theme === 'light' ? (
-                        <Moon className="mr-3 h-5 w-5 text-muted-foreground" />
-                    ) : (
-                        <Sun className="mr-3 h-5 w-5 text-muted-foreground" />
-                    )}
-                </button>
-                <Button variant="link" className="p-0 h-auto text-sm text-foreground hover:no-underline" onClick={handleLogout}>Log out</Button>
+                  <span className="sr-only">Toggle theme</span>
+                  {theme === 'light' ? (
+                      <Moon className="h-5 w-5 text-muted-foreground" />
+                  ) : (
+                      <Sun className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </Button>
+
+                <Separator orientation="vertical" className="h-6" />
+
+                <Button 
+                    variant="ghost" 
+                    className="flex items-center gap-2 p-2 text-sm"
+                    onClick={handleLogout}
+                >
+                    <LogOut className="h-5 w-5 text-muted-foreground" />
+                    <span>Log out</span>
+                </Button>
             </div>
            </div>
         </DropdownMenuContent>
