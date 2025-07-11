@@ -105,6 +105,8 @@ export default function DashboardPage() {
             <MarketIndexSkeleton />
             <MarketIndexSkeleton />
             <MarketIndexSkeleton />
+            <MarketIndexSkeleton />
+            <MarketIndexSkeleton />
           </>
         ) : (
           indices.map((index) => (

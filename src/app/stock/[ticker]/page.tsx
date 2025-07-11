@@ -22,6 +22,17 @@ const stockDetails: Record<string, {name: string, sector: string, marketCap: str
     'NIFTY 50': { name: 'Nifty 50', sector: 'Index', marketCap: '₹150.7T', peRatio: '22.3', dividendYield: '1.2%', '52WeekHigh': '24,000.00', '52WeekLow': '18,000.00' },
     'SENSEX': { name: 'BSE Sensex', sector: 'Index', marketCap: '₹140.2T', peRatio: '30.1', dividendYield: '1.1%', '52WeekHigh': '78,000.00', '52WeekLow': '60,000.00' },
     'NIFTY BANK': { name: 'Nifty Bank', sector: 'Banking', marketCap: '₹35.1T', peRatio: '12.5', dividendYield: '1.5%', '52WeekHigh': '52,000.00', '52WeekLow': '40,000.00' },
+    'RELIANCE': { name: 'Reliance Industries', sector: 'Conglomerate', marketCap: '₹19.6T', peRatio: '28.5', dividendYield: '0.3%', '52WeekHigh': '3,024.90', '52WeekLow': '2,220.30' },
+    'HDFCBANK': { name: 'HDFC Bank', sector: 'Banking', marketCap: '₹12.2T', peRatio: '19.8', dividendYield: '1.2%', '52WeekHigh': '1,757.80', '52WeekLow': '1,363.45' },
+    'ICICIBANK': { name: 'ICICI Bank', sector: 'Banking', marketCap: '₹7.8T', peRatio: '18.2', dividendYield: '0.7%', '52WeekHigh': '1,169.00', '52WeekLow': '899.00' },
+    'INFY': { name: 'Infosys', sector: 'IT Services', marketCap: '₹6.3T', peRatio: '23.8', dividendYield: '2.4%', '52WeekHigh': '1,733.00', '52WeekLow': '1,262.25' },
+    'TCS': { name: 'Tata Consultancy Services', sector: 'IT Services', marketCap: '₹13.8T', peRatio: '30.1', dividendYield: '1.3%', '52WeekHigh': '4,254.45', '52WeekLow': '3,165.00' },
+    'HINDUNILVR': { name: 'Hindustan Unilever', sector: 'FMCG', marketCap: '₹5.8T', peRatio: '56.9', dividendYield: '1.6%', '52WeekHigh': '2,768.50', '52WeekLow': '2,242.00' },
+    'ITC': { name: 'ITC Limited', sector: 'Conglomerate', marketCap: '₹5.3T', peRatio: '25.6', dividendYield: '3.2%', '52WeekHigh': '499.60', '52WeekLow': '399.35' },
+    'KOTAKBANK': { name: 'Kotak Mahindra Bank', sector: 'Banking', marketCap: '₹3.5T', peRatio: '25.3', dividendYield: '0.1%', '52WeekHigh': '2,063.00', '52WeekLow': '1,544.50' },
+    'SBIN': { name: 'State Bank of India', sector: 'Banking', marketCap: '₹7.5T', peRatio: '10.9', dividendYield: '1.6%', '52WeekHigh': '912.00', '52WeekLow': '543.20' },
+    'AXISBANK': { name: 'Axis Bank', sector: 'Banking', marketCap: '₹3.7T', peRatio: '14.8', dividendYield: '0.2%', '52WeekHigh': '1,245.00', '52WeekLow': '927.00' },
+    'LT': { name: 'Larsen & Toubro', sector: 'Infrastructure', marketCap: '₹4.8T', peRatio: '35.4', dividendYield: '0.8%', '52WeekHigh': '3,948.60', '52WeekLow': '2,572.00' },
 };
 
 

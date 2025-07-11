@@ -34,10 +34,21 @@ const indicesData: Record<string, { baseValue: number; changeRange: number }> = 
     'NIFTY 50': { baseValue: 23500, changeRange: 200 },
     'SENSEX': { baseValue: 77200, changeRange: 650 },
     'NIFTY BANK': { baseValue: 50500, changeRange: 300 },
+    'RELIANCE': { baseValue: 2900, changeRange: 50 },
+    'HDFCBANK': { baseValue: 1600, changeRange: 40 },
+    'ICICIBANK': { baseValue: 1100, changeRange: 30 },
+    'INFY': { baseValue: 1500, changeRange: 35 },
+    'TCS': { baseValue: 3800, changeRange: 70 },
+    'HINDUNILVR': { baseValue: 2500, changeRange: 60 },
+    'ITC': { baseValue: 430, changeRange: 15 },
+    'KOTAKBANK': { baseValue: 1750, changeRange: 45 },
+    'SBIN': { baseValue: 840, changeRange: 25 },
+    'AXISBANK': { baseValue: 1200, changeRange: 30 },
+    'LT': { baseValue: 3500, changeRange: 80 },
 };
 
 function generateIndexData(ticker: string): MarketIndex {
-    const { baseValue, changeRange } = indicesData[ticker] || { baseValue: 5000, changeRange: 100 };
+    const { baseValue, changeRange } = indicesData[ticker] || { baseValue: 1000, changeRange: 50 };
     
     const randomChange = getRandom(-changeRange, changeRange);
     const isUp = randomChange >= 0;
@@ -62,7 +73,20 @@ function generateIndexData(ticker: string): MarketIndex {
 
 
 export async function getMarketIndices(): Promise<MarketIndex[]> {
-  const tickers = ['NIFTY 50', 'SENSEX', 'NIFTY BANK'];
+  const tickers = [
+    'NIFTY 50', 
+    'SENSEX', 
+    'NIFTY BANK', 
+    'RELIANCE', 
+    'HDFCBANK', 
+    'ICICIBANK',
+    'INFY',
+    'TCS',
+    'SBIN',
+    'KOTAKBANK',
+    'AXISBANK',
+    'LT'
+  ];
   return tickers.map(ticker => generateIndexData(ticker));
 }
 
