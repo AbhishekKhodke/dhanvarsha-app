@@ -64,7 +64,13 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 gap-8">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 gap-8 overflow-hidden">
+       <div className="absolute inset-0 z-0">
+        <div className="ball" style={{ width: '20rem', height: '20rem', top: '5%', left: '10%', animationDuration: '12s' }}></div>
+        <div className="ball" style={{ width: '15rem', height: '15rem', top: '60%', left: '70%', animationDuration: '10s', animationDelay: '2s' }}></div>
+        <div className="ball" style={{ width: '10rem', height: '10rem', top: '30%', left: '80%', animationDuration: '8s', animationDelay: '4s' }}></div>
+        <div className="ball" style={{ width: '25rem', height: '25rem', top: '80%', left: '5%', animationDuration: '15s', animationDelay: '1s' }}></div>
+      </div>
       <div className="animate-fade-in-down z-10">
         <Logo />
       </div>
