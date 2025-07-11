@@ -122,7 +122,7 @@ export default function DashboardPage() {
        </div>
        
        <section>
-          <h2 className="text-2xl font-semibold tracking-tight mb-4">Market Indices</h2>
+          <h2 className="text-2xl font-semibold tracking-tight mb-4">Indian Indices</h2>
           <div className="flex gap-4 overflow-x-auto pb-4">
             {loading ? (
               <>
