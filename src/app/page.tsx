@@ -30,7 +30,6 @@ import { Logo } from '@/components/logo';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const loginSchema = z.object({
-  name: z.string().min(1, 'Full name is required'),
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
 });
@@ -44,7 +43,6 @@ export default function LoginPage() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
@@ -60,8 +58,9 @@ export default function LoginPage() {
 
     setLoginError(null);
     if (typeof window !== 'undefined') {
+      const nameFromEmail = data.email.split('@')[0];
       localStorage.setItem('userEmail', data.email);
-      localStorage.setItem('userName', data.name);
+      localStorage.setItem('userName', nameFromEmail);
       localStorage.setItem('userBalance', '1000');
       // Clear previous user's picture on new login
       localStorage.removeItem('profilePicture');
@@ -91,19 +90,6 @@ export default function LoginPage() {
                     <AlertDescription>{loginError}</AlertDescription>
                   </Alert>
               )}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your Name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="email"
