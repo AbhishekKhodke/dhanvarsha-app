@@ -7,6 +7,7 @@ export const MarketIndexSchema = z.object({
   value: z.string(),
   change: z.string(),
   isUp: z.boolean(),
+  iconUrl: z.string(),
   data: z.array(z.object({ value: z.number() })),
 });
 

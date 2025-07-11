@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { MainLayout } from '@/components/main-layout';
 import { StockChart } from '@/components/stock-chart';
 import { AiInsights } from '@/components/ai-insights';
@@ -134,6 +135,7 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-4">
+                     <Image src={stock.iconUrl} alt={`${stock.name} logo`} width={40} height={40} className="rounded-full" data-ai-hint={`${stock.name} logo`}/>
                     <h1 className="text-3xl font-bold">{stock.name}</h1>
                     <Badge variant="outline">{stock.ticker}</Badge>
                     {details.sector && <Badge variant="secondary">{details.sector}</Badge>}

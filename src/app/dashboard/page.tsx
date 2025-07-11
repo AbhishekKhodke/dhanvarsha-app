@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Card,
   CardContent,
@@ -167,9 +168,12 @@ export default function DashboardPage() {
                             stocks.map((stock) => (
                                 <TableRow key={stock.ticker} className="cursor-pointer">
                                     <TableCell>
-                                        <Link href={`/stock/${encodeURIComponent(stock.ticker || stock.name)}`} className="font-medium hover:underline">
-                                          <div>{stock.name}</div>
-                                          <div className="text-xs text-muted-foreground">{stock.ticker}</div>
+                                        <Link href={`/stock/${encodeURIComponent(stock.ticker || stock.name)}`} className="font-medium hover:underline flex items-center gap-3">
+                                          <Image src={stock.iconUrl} alt={`${stock.name} logo`} width={40} height={40} className="rounded-full" data-ai-hint={`${stock.name} logo`}/>
+                                          <div>
+                                              <div>{stock.name}</div>
+                                              <div className="text-xs text-muted-foreground">{stock.ticker}</div>
+                                          </div>
                                         </Link>
                                     </TableCell>
                                     <TableCell className="text-right font-mono">{stock.value}</TableCell>
