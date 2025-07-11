@@ -10,7 +10,6 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardContent,
 } from '@/components/ui/card';
 import {
   Form,
@@ -79,9 +78,9 @@ export default function LoginPage() {
   )
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4 animate-fade-in-down">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 animate-fade-in-down">
       <AnimatedBackground />
-      <Card className="w-full max-w-4xl shadow-2xl overflow-hidden z-10 animate-scale-in">
+      <Card className="w-full max-w-4xl shadow-2xl overflow-hidden z-10 animate-scale-in bg-card">
         <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="relative bg-primary text-primary-foreground p-12 flex-col justify-between hidden md:flex">
                 <div className="relative z-10">
