@@ -31,7 +31,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(5, 'Password must be at least 5 characters'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -50,12 +50,7 @@ export default function LoginPage() {
 
   const onSubmit = (data: LoginFormValues) => {
     // In a real app, you'd perform authentication here.
-    // For this demo, we'll simulate a check.
-    if (data.password !== 'password123') {
-      setLoginError('The email-id or password you entered is incorrect');
-      return;
-    }
-
+    // For this demo, we'll allow any password with 5+ characters.
     setLoginError(null);
     if (typeof window !== 'undefined') {
       const nameFromEmail = data.email.split('@')[0];
@@ -123,7 +118,7 @@ export default function LoginPage() {
                     </div>
                     <div className="relative">
                       <FormControl>
-                        <Input type={showPassword ? 'text' : 'password'} placeholder="Hint: password123" {...field} />
+                        <Input type={showPassword ? 'text' : 'password'} {...field} />
                       </FormControl>
                       <button
                         type="button"
