@@ -67,3 +67,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .ball {
+    @apply absolute rounded-full;
+    background: linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--accent)));
+    opacity: 0.3;
+    animation: move 10s infinite alternate;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px) rotate(180deg);
+  }
+}
