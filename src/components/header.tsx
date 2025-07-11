@@ -121,7 +121,9 @@ export function Header() {
       </Sheet>
 
       <div className="hidden sm:block">
-        <Logo />
+        <Link href="/dashboard">
+          <Logo />
+        </Link>
       </div>
 
       <div className="relative ml-auto flex-1 md:grow-0">
