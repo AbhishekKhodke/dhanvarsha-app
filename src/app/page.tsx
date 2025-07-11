@@ -1,10 +1,12 @@
 
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { AlertCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +27,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Logo } from '@/components/logo';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const loginSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -35,6 +38,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -47,7 +51,13 @@ export default function LoginPage() {
 
   const onSubmit = (data: LoginFormValues) => {
     // In a real app, you'd perform authentication here.
-    // For this demo, we'll just navigate to the dashboard and save user info.
+    // For this demo, we'll simulate a check.
+    if (data.password !== 'password123') {
+      setLoginError('The email-id or password you entered is incorrect');
+      return;
+    }
+
+    setLoginError(null);
     if (typeof window !== 'undefined') {
       localStorage.setItem('userEmail', data.email);
       localStorage.setItem('userName', data.name);
@@ -73,6 +83,13 @@ export default function LoginPage() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardContent className="grid gap-4">
+              {loginError && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Login Failed</AlertTitle>
+                    <AlertDescription>{loginError}</AlertDescription>
+                  </Alert>
+              )}
               <FormField
                 control={form.control}
                 name="name"
@@ -118,7 +135,7 @@ export default function LoginPage() {
                       </a>
                     </div>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <Input type="password" placeholder="Hint: password123" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
