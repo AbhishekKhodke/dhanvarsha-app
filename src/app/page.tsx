@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -39,6 +39,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -134,9 +135,25 @@ export default function LoginPage() {
                         Forgot password?
                       </a>
                     </div>
-                    <FormControl>
-                      <Input type="password" placeholder="Hint: password123" {...field} />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl>
+                        <Input type={showPassword ? 'text' : 'password'} placeholder="Hint: password123" {...field} />
+                      </FormControl>
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                        <span className="sr-only">
+                          {showPassword ? 'Hide password' : 'Show password'}
+                        </span>
+                      </button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
