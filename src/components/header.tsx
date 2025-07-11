@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import {
   Bell,
   Home,
@@ -9,6 +10,8 @@ import {
   PanelLeft,
   Search,
   Users2,
+  LogOut,
+  Settings
 } from 'lucide-react';
 
 import {
@@ -28,8 +31,31 @@ import {
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const email = localStorage.getItem('userEmail');
+      setUserEmail(email);
+    }
+  }, []);
+
+  const getInitials = (email: string | null) => {
+    if (!email) return 'U';
+    return email.charAt(0).toUpperCase();
+  };
+
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userEmail');
+    }
+    router.push('/');
+  };
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
@@ -93,18 +119,27 @@ export function Header() {
             className="overflow-hidden rounded-full"
           >
             <Avatar>
-              <AvatarImage src="https://placehold.co/32x32.png" alt="@shadcn" data-ai-hint="person face" />
-              <AvatarFallback>U</AvatarFallback>
+              <AvatarImage src={`https://placehold.co/32x32.png?text=${getInitials(userEmail)}`} alt="User avatar" data-ai-hint="person face" />
+              <AvatarFallback>{getInitials(userEmail)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>
+            <p className="font-medium">My Account</p>
+            {userEmail && <p className="text-xs text-muted-foreground">{userEmail}</p>}
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Logout</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

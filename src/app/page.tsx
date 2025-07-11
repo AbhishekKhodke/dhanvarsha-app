@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,16 +17,20 @@ import { Logo } from '@/components/logo';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
 
   const handleLogin = () => {
     // In a real app, you'd perform authentication here.
-    // For this demo, we'll just navigate to the dashboard.
+    // For this demo, we'll just navigate to the dashboard and save email.
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('userEmail', email || 'user@example.com');
+    }
     router.push('/dashboard');
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
-      <div className="mb-8">
+      <div className="mb-8 text-center">
         <Logo />
       </div>
       <Card className="w-full max-w-sm shadow-2xl">
@@ -40,7 +45,13 @@ export default function LoginPage() {
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="your@email.com" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="grid gap-2">
             <div className="flex items-center">
