@@ -30,8 +30,7 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: M
   <Link href={`/stock/${encodeURIComponent(ticker || name)}`} className="block">
     <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 w-[200px]">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
-         <Image src={iconUrl} alt={`${name} logo`} width={40} height={40} className="rounded-full" data-ai-hint={`${name} logo`}/>
-        <div className="flex-grow text-right">
+        <div className="flex-grow text-left">
           <CardTitle className="text-sm font-medium whitespace-nowrap">{name}</CardTitle>
           <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
         </div>
@@ -74,10 +73,9 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: M
 const MarketIndexSkeleton = () => (
     <Card className="shadow-lg w-[200px]">
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
-             <Skeleton className="h-10 w-10 rounded-full" />
-             <div className="flex-grow text-right">
-                <Skeleton className="h-4 w-16 mb-1 ml-auto" />
-                <Skeleton className="h-3 w-12 ml-auto" />
+             <div className="flex-grow text-left">
+                <Skeleton className="h-4 w-16 mb-1" />
+                <Skeleton className="h-3 w-12" />
              </div>
         </CardHeader>
         <CardContent className="pt-1">
