@@ -30,15 +30,14 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: M
   <Link href={`/stock/${encodeURIComponent(ticker || name)}`} className="block">
     <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 w-[180px]">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
-        <Image src={iconUrl} alt={`${name} logo`} width={24} height={24} className="rounded-full" data-ai-hint={`${name} logo`}/>
         <div className="flex-grow">
-          <CardTitle className="text-xs font-medium whitespace-nowrap">{name}</CardTitle>
+          <CardTitle className="text-sm font-medium whitespace-nowrap">{name}</CardTitle>
           <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
         </div>
       </CardHeader>
       <CardContent className="pt-1">
         <div className="flex items-end justify-between">
-          <div className="text-sm font-bold">{value}</div>
+          <div className="text-lg font-bold">{value}</div>
           <div className="h-8 w-16">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
@@ -74,7 +73,6 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: M
 const MarketIndexSkeleton = () => (
     <Card className="shadow-lg w-[180px]">
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
-             <Skeleton className="h-6 w-6 rounded-full" />
              <div className="flex-grow">
                 <Skeleton className="h-4 w-16 mb-1" />
                 <Skeleton className="h-3 w-12" />
