@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { MainLayout } from '@/components/main-layout';
 import { StockChart } from '@/components/stock-chart';
 import { AiInsights } from '@/components/ai-insights';
+import { TradePanel } from '@/components/trade-panel';
 import {
   Card,
   CardContent,
@@ -105,6 +106,8 @@ const StockPageSkeleton = () => (
 export default function StockPage({ params }: { params: { ticker: string } }) {
   const [stock, setStock] = useState<MarketIndex | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showTradePanel, setShowTradePanel] = useState(false);
+  const [tradeAction, setTradeAction] = useState<'BUY' | 'SELL'>('BUY');
   const ticker = decodeURIComponent(params.ticker);
   
   useEffect(() => {
@@ -120,6 +123,11 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [ticker, loading])
+
+  const handleTradeClick = (action: 'BUY' | 'SELL') => {
+    setTradeAction(action);
+    setShowTradePanel(true);
+  }
 
   if(loading || !stock) {
       return <MainLayout><StockPageSkeleton /></MainLayout>
@@ -161,10 +169,10 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
                       <span>{stock.change}</span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button className="bg-green-600 hover:bg-green-700 text-white">Buy</Button>
-                    <Button variant="destructive">Sell</Button>
-                  </div>
+                   {!showTradePanel && <div className="flex gap-2">
+                    <Button onClick={() => handleTradeClick('BUY')} className="bg-green-600 hover:bg-green-700 text-white">Buy</Button>
+                    <Button onClick={() => handleTradeClick('SELL')} variant="destructive">Sell</Button>
+                  </div>}
                 </div>
 
               </div>
@@ -175,38 +183,49 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
         </div>
 
         <div className="lg:col-span-1 flex flex-col gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Key Statistics</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Market Cap</span>
-                <span>{details.marketCap}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">P/E Ratio</span>
-                <span>{details.peRatio}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Dividend Yield</span>
-                <span>{details.dividendYield}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">52-Week High</span>
-                <span>{details['52WeekHigh']}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">52-Week Low</span>
-                <span>{details['52WeekLow']}</span>
-              </div>
-            </CardContent>
-          </Card>
-          <AiInsights ticker={stock.ticker} />
+          {showTradePanel ? (
+            <TradePanel 
+              key={tradeAction}
+              stock={stock} 
+              action={tradeAction} 
+              onClose={() => setShowTradePanel(false)} 
+            />
+          ) : (
+            <>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Key Statistics</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-4 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Market Cap</span>
+                    <span>{details.marketCap}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">P/E Ratio</span>
+                    <span>{details.peRatio}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Dividend Yield</span>
+                    <span>{details.dividendYield}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">52-Week High</span>
+                    <span>{details['52WeekHigh']}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">52-Week Low</span>
+                    <span>{details['52WeekLow']}</span>
+                  </div>
+                </CardContent>
+              </Card>
+              <AiInsights ticker={stock.ticker} />
+            </>
+          )}
         </div>
       </div>
     </MainLayout>
