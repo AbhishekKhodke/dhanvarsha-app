@@ -64,19 +64,11 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 gap-8 overflow-hidden">
-       <div className="absolute inset-0 z-0">
-          <div className="ball" style={{ width: '20vw', height: '20vw', top: '10%', left: '10%', animationDuration: '10s' }}></div>
-          <div className="ball" style={{ width: '15vw', height: '15vw', top: '70%', left: '80%', animationDuration: '12s', animationDelay: '2s' }}></div>
-          <div className="ball" style={{ width: '10vw', height: '10vw', top: '50%', left: '40%', animationDuration: '8s', animationDelay: '1s' }}></div>
-          <div className="ball" style={{ width: '25vw', height: '25vw', top: '20%', left: '70%', animationDuration: '15s', animationDelay: '3s' }}></div>
-          <div className="ball" style={{ width: '12vw', height: '12vw', top: '80%', left: '20%', animationDuration: '9s', animationDelay: '0.5s' }}></div>
-       </div>
-
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 gap-8">
       <div className="animate-fade-in-down z-10">
         <Logo />
       </div>
-      <Card className="w-full max-w-sm shadow-2xl animate-scale-in z-10" style={{ animationDelay: '200ms', animationFillMode: 'backwards', backgroundColor: 'hsla(var(--card) / 0.8)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+      <Card className="w-full max-w-sm shadow-2xl animate-scale-in z-10" style={{ animationDelay: '200ms', animationFillMode: 'backwards' }}>
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">
             Welcome Back
