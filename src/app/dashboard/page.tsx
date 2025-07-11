@@ -56,8 +56,12 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: M
                     <stop offset="5%" stopColor="#22C55E" stopOpacity={0.8}/>
                     <stop offset="95%" stopColor="#22C55E" stopOpacity={0}/>
                   </linearGradient>
+                   <linearGradient id="chartRed" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#EF4444" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                  </linearGradient>
                 </defs>
-                <Area type="monotone" dataKey="value" stroke={"#22C55E"} fillOpacity={1} fill={"url(#chartGreen)"} />
+                <Area type="monotone" dataKey="value" stroke={isUp ? "#22C55E" : "#EF4444"} fillOpacity={1} fill={isUp ? "url(#chartGreen)" : "url(#chartRed)"} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
