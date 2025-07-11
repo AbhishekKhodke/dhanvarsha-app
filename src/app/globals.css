@@ -10,7 +10,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217.2 91.2% 59.8%;
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -203,5 +203,31 @@
 @keyframes move {
   100% {
     transform: translate3d(0, 0, 1px) rotate(360deg);
+  }
+}
+
+.text-slider-item {
+  animation: slide-up 0.5s ease-in-out, slide-down 0.5s ease-in-out 2.5s;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
   }
 }

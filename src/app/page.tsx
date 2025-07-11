@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,8 +30,20 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+const fundTypes = [
+  'F&O',
+  'IPO',
+  'MTF',
+  'Intraday',
+  'Stocks',
+  'ETFs',
+  'Mutual Funds',
+];
+
 export default function LoginPage() {
   const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -39,6 +51,13 @@ export default function LoginPage() {
       password: '',
     },
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % fundTypes.length);
+    }, 3000); // Change slide every 3 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   const onSubmit = (data: LoginFormValues) => {
     if (typeof window !== 'undefined') {
@@ -69,8 +88,10 @@ export default function LoginPage() {
                     <h2 className="text-4xl font-bold tracking-tight">Simple, Free</h2>
                     <h2 className="text-4xl font-bold tracking-tight">Investing.</h2>
                 </div>
-                 <div className="relative z-10">
-                    <p className="text-xl font-medium">Mutual Funds</p>
+                 <div className="relative z-10 h-10 overflow-hidden">
+                   <div key={currentIndex} className="text-xl font-medium text-slider-item">
+                      {fundTypes[currentIndex]}
+                    </div>
                 </div>
             </div>
             <div className="p-8 md:p-12">
