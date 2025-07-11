@@ -8,12 +8,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import { MainLayout } from '@/components/main-layout';
-import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, ArrowUp, ArrowDown } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { getMarketIndices } from '@/ai/flows/get-market-indices-flow';
 import type { MarketIndex } from '@/ai/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 
 
 const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
@@ -80,18 +89,21 @@ const MarketIndexSkeleton = () => (
 
 
 export default function DashboardPage() {
-  const [indices, setIndices] = useState<MarketIndex[]>([]);
+  const [data, setData] = useState<MarketIndex[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const data = await getMarketIndices();
-      setIndices(data);
+      const result = await getMarketIndices();
+      setData(result);
       setLoading(false);
     };
     fetchData();
   }, []);
+
+  const indices = data.filter(d => ['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
+  const stocks = data.filter(d => !['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
 
   return (
     <MainLayout>
@@ -99,21 +111,67 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">Welcome back! Here's a look at the market today.</p>
        </div>
-      <div className="flex gap-4 overflow-x-auto pb-4">
-        {loading ? (
-          <>
-            <MarketIndexSkeleton />
-            <MarketIndexSkeleton />
-            <MarketIndexSkeleton />
-            <MarketIndexSkeleton />
-            <MarketIndexSkeleton />
-          </>
-        ) : (
-          indices.map((index) => (
-            <MarketIndexCard key={index.name} {...index} />
-          ))
-        )}
-      </div>
+       
+       <section>
+          <h2 className="text-2xl font-semibold tracking-tight mb-4">Market Indices</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4">
+            {loading ? (
+              <>
+                <MarketIndexSkeleton />
+                <MarketIndexSkeleton />
+                <MarketIndexSkeleton />
+              </>
+            ) : (
+              indices.map((index) => (
+                <MarketIndexCard key={index.name} {...index} />
+              ))
+            )}
+          </div>
+       </section>
+
+       <section>
+          <Card>
+            <CardHeader>
+                <CardTitle>Top Stocks</CardTitle>
+                <CardDescription>A list of top-performing stocks in the market.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Company</TableHead>
+                            <TableHead className="text-right">Price</TableHead>
+                            <TableHead className="text-right">Change</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                         {loading ? (
+                            Array.from({length: 5}).map((_, i) => (
+                                <TableRow key={i}>
+                                    <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                    <TableCell className="text-right"><Skeleton className="h-5 w-24 ml-auto" /></TableCell>
+                                    <TableCell className="text-right"><Skeleton className="h-5 w-20 ml-auto" /></TableCell>
+                                </TableRow>
+                            ))
+                         ) : (
+                            stocks.map((stock) => (
+                                <TableRow key={stock.name} className="cursor-pointer">
+                                    <TableCell>
+                                        <Link href={`/stock/${encodeURIComponent(stock.name)}`} className="font-medium hover:underline">{stock.name}</Link>
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono">{stock.value}</TableCell>
+                                    <TableCell className={`flex items-center justify-end gap-1 text-right font-mono ${stock.isUp ? 'text-green-500' : 'text-red-500'}`}>
+                                        {stock.isUp ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
+                                        {stock.change}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                         )}
+                    </TableBody>
+                </Table>
+            </CardContent>
+          </Card>
+       </section>
     </MainLayout>
   );
 }
