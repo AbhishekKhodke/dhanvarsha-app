@@ -20,6 +20,7 @@ import {
   FilePieChart,
   ChevronRight,
   Moon,
+  Sun,
 } from 'lucide-react';
 
 import {
@@ -198,14 +199,18 @@ export function Header() {
            ))}
           <DropdownMenuSeparator />
            <div className="p-2">
-            <div className="flex items-center justify-between rounded-lg p-2 hover:bg-accent cursor-pointer" onClick={handleLogout}>
-                <div className="flex items-center">
-                    <Moon className="mr-3 h-5 w-5 text-muted-foreground" />
-                    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-                      Theme
-                    </button>
-                </div>
-                <Button variant="link" className="p-0 h-auto text-sm text-foreground hover:no-underline">Log out</Button>
+            <div className="flex items-center justify-between rounded-lg p-2 hover:bg-accent cursor-pointer">
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  className="flex items-center"
+                >
+                    {theme === 'light' ? (
+                        <Moon className="mr-3 h-5 w-5 text-muted-foreground" />
+                    ) : (
+                        <Sun className="mr-3 h-5 w-5 text-muted-foreground" />
+                    )}
+                </button>
+                <Button variant="link" className="p-0 h-auto text-sm text-foreground hover:no-underline" onClick={handleLogout}>Log out</Button>
             </div>
            </div>
         </DropdownMenuContent>
