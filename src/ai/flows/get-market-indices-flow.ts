@@ -4,10 +4,9 @@
  * @fileOverview A flow for fetching simulated live market index data.
  *
  * - getMarketIndices - A function that returns simulated data for major market indices.
- * - MarketIndex - The type for a single market index data point.
  */
 
-import { z } from 'genkit';
+import type { MarketIndex } from '@/ai/types';
 
 // Helper to generate a random number within a range
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -35,16 +34,6 @@ const indicesData: Record<string, { baseValue: number; changeRange: number }> = 
     'SENSEX': { baseValue: 77200, changeRange: 650 },
     'NIFTY BANK': { baseValue: 50500, changeRange: 300 },
 };
-
-export const MarketIndexSchema = z.object({
-  name: z.string(),
-  value: z.string(),
-  change: z.string(),
-  isUp: z.boolean(),
-  data: z.array(z.object({ value: z.number() })),
-});
-
-export type MarketIndex = z.infer<typeof MarketIndexSchema>;
 
 export async function getMarketIndices(): Promise<MarketIndex[]> {
   const tickers = ['NIFTY 50', 'SENSEX', 'NIFTY BANK'];

@@ -6,12 +6,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
 } from '@/components/ui/card';
 import { MainLayout } from '@/components/main-layout';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
-import { getMarketIndices, type MarketIndex } from '@/ai/flows/get-market-indices-flow';
+import { getMarketIndices } from '@/ai/flows/get-market-indices-flow';
+import type { MarketIndex } from '@/ai/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
