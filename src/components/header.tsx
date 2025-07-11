@@ -12,7 +12,8 @@ import {
   Search,
   Users2,
   LogOut,
-  Settings
+  Settings,
+  Wallet,
 } from 'lucide-react';
 
 import {
@@ -156,6 +157,16 @@ export function Header() {
             )}
             {userEmail && <p className="text-xs text-muted-foreground">{userEmail}</p>}
           </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+           <DropdownMenuItem className="cursor-default focus:bg-transparent focus:text-accent-foreground">
+             <div className="flex items-center justify-between w-full">
+                <div className="flex items-center">
+                    <Wallet className="mr-2 h-4 w-4" />
+                    <span>Balance</span>
+                </div>
+                <span className="font-mono text-sm">₹1,00,000.00</span>
+             </div>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push('/settings')}>
             <Settings className="mr-2 h-4 w-4" />
