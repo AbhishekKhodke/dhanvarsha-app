@@ -39,6 +39,7 @@ export function Header() {
   const [userName, setUserName] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>(null);
+  const [balance, setBalance] = useState<string | null>(null);
   const router = useRouter();
 
   const getInitials = (name: string | null) => {
@@ -51,9 +52,11 @@ export function Header() {
       const name = localStorage.getItem('userName');
       const email = localStorage.getItem('userEmail');
       const pic = localStorage.getItem('profilePicture');
+      const userBalance = localStorage.getItem('userBalance');
       setUserName(name);
       setUserEmail(email);
       setProfilePic(pic);
+      setBalance(userBalance);
     }
   };
 
@@ -74,9 +77,12 @@ export function Header() {
       localStorage.removeItem('userName');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('profilePicture');
+      localStorage.removeItem('userBalance');
     }
     router.push('/');
   };
+
+  const formattedBalance = balance ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(balance)) : '₹0.00';
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -164,7 +170,7 @@ export function Header() {
                     <Wallet className="mr-2 h-4 w-4" />
                     <span>Balance</span>
                 </div>
-                <span className="font-mono text-sm">₹1,00,000.00</span>
+                <span className="font-mono text-sm">{formattedBalance}</span>
              </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

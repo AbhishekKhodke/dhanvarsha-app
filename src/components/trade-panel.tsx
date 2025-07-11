@@ -35,9 +35,17 @@ export function TradePanel({ stock, action, onClose }: TradePanelProps) {
   const [price, setPrice] = useState<number | string>('');
   const [priceType, setPriceType] = useState('market');
   const [approxRequired, setApproxRequired] = useState(0);
+  const [balance, setBalance] = useState<number>(0);
   const { toast } = useToast();
 
   const stockPrice = parseFloat(stock.value.replace(/,/g, ''));
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+        const storedBalance = localStorage.getItem('userBalance') || '0';
+        setBalance(parseFloat(storedBalance));
+    }
+  }, [])
 
   useEffect(() => {
     if (priceType === 'market') {
@@ -56,6 +64,8 @@ export function TradePanel({ stock, action, onClose }: TradePanelProps) {
     })
     onClose();
   }
+
+  const formattedBalance = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(balance);
 
   const renderContent = (currentAction: 'BUY' | 'SELL') => {
     const isBuy = currentAction === 'BUY';
@@ -101,7 +111,7 @@ export function TradePanel({ stock, action, onClose }: TradePanelProps) {
 
             <Separator />
             <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Balance: ₹0.00</span>
+                <span className="text-muted-foreground">Balance: {formattedBalance}</span>
                 <span className="text-muted-foreground">Approx req.: ₹{approxRequired.toFixed(2)}</span>
             </div>
             <Button 

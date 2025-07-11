@@ -27,6 +27,7 @@ export default function LoginPage() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('userEmail', email || 'user@example.com');
       localStorage.setItem('userName', name || 'User');
+      localStorage.setItem('userBalance', '100000');
       // Clear previous user's picture on new login
       localStorage.removeItem('profilePicture');
     }
