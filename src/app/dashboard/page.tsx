@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -10,56 +11,11 @@ import {
 import { MainLayout } from '@/components/main-layout';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
+import { getMarketIndices, type MarketIndex } from '@/ai/flows/get-market-indices-flow';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const indices = [
-  {
-    name: 'NIFTY 50',
-    value: '23,516.00',
-    change: '+189.40 (0.81%)',
-    isUp: true,
-    data: [
-      { value: 4500 },
-      { value: 4800 },
-      { value: 4700 },
-      { value: 5200 },
-      { value: 5100 },
-      { value: 5300 },
-      { value: 5400 },
-    ],
-  },
-  {
-    name: 'SENSEX',
-    value: '77,209.90',
-    change: '+620.73 (0.80%)',
-    isUp: true,
-    data: [
-      { value: 3000 },
-      { value: 3200 },
-      { value: 3100 },
-      { value: 3400 },
-      { value: 3500 },
-      { value: 3300 },
-      { value: 3600 },
-    ],
-  },
-   {
-    name: 'NIFTY BANK',
-    value: '50,440.00',
-    change: '-200.50 (0.40%)',
-    isUp: false,
-    data: [
-      { value: 7000 },
-      { value: 6800 },
-      { value: 6900 },
-      { value: 6500 },
-      { value: 6600 },
-      { value: 6400 },
-      { value: 6300 },
-    ],
-  },
-];
 
-const MarketIndexCard = ({ name, value, change, isUp, data }: (typeof indices)[0]) => (
+const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px]">
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
       <CardTitle className="text-sm font-medium">{name}</CardTitle>
@@ -99,7 +55,41 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: (typeof indices)[0
   </Card>
 );
 
+const MarketIndexSkeleton = () => (
+    <Card className="shadow-lg min-w-[300px]">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-4" />
+        </CardHeader>
+        <CardContent>
+            <div className="flex items-end justify-between">
+                <div>
+                    <Skeleton className="h-8 w-32 mb-2" />
+                    <Skeleton className="h-3 w-24" />
+                </div>
+                <div className="h-16 w-32">
+                    <Skeleton className="h-full w-full" />
+                </div>
+            </div>
+        </CardContent>
+    </Card>
+);
+
+
 export default function DashboardPage() {
+  const [indices, setIndices] = useState<MarketIndex[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await getMarketIndices();
+      setIndices(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
   return (
     <MainLayout>
        <div className="flex flex-col gap-2">
@@ -107,9 +97,17 @@ export default function DashboardPage() {
         <p className="text-muted-foreground">Welcome back! Here's a look at the market today.</p>
        </div>
       <div className="flex gap-4 overflow-x-auto pb-4">
-        {indices.map((index) => (
-          <MarketIndexCard key={index.name} {...index} />
-        ))}
+        {loading ? (
+          <>
+            <MarketIndexSkeleton />
+            <MarketIndexSkeleton />
+            <MarketIndexSkeleton />
+          </>
+        ) : (
+          indices.map((index) => (
+            <MarketIndexCard key={index.name} {...index} />
+          ))
+        )}
       </div>
     </MainLayout>
   );
