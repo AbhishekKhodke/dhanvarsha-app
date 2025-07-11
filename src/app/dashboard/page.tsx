@@ -57,12 +57,12 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
                   labelStyle={{ display: 'none' }}
                 />
                 <defs>
-                   <linearGradient id={isUp ? "colorUv" : "colorPv" } x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={isUp ? 'hsl(var(--primary))' : '#ef4444'} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={isUp ? 'hsl(var(--primary))' : '#ef4444'} stopOpacity={0}/>
+                   <linearGradient id="chartGreen" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#22C55E" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#22C55E" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <Area type="monotone" dataKey="value" stroke={isUp ? 'hsl(var(--primary))' : '#ef4444'} fillOpacity={1} fill={`url(#${isUp ? 'colorUv' : 'colorPv'})`} />
+                <Area type="monotone" dataKey="value" stroke="#22C55E" fillOpacity={1} fill="url(#chartGreen)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
