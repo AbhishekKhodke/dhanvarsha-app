@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -24,13 +25,15 @@ export default function LoginPage() {
     // For this demo, we'll just navigate to the dashboard and save email.
     if (typeof window !== 'undefined') {
       localStorage.setItem('userEmail', email || 'user@example.com');
+      // Clear previous user's picture on new login
+      localStorage.removeItem('profilePicture');
     }
     router.push('/dashboard');
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
-      <div className="mb-8 text-center">
+       <div className="absolute top-8 text-center">
         <Logo />
       </div>
       <Card className="w-full max-w-sm shadow-2xl">

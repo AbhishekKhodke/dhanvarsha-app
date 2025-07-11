@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -35,23 +36,39 @@ import { useRouter } from 'next/navigation';
 
 export function Header() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<string | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const email = localStorage.getItem('userEmail');
-      setUserEmail(email);
-    }
-  }, []);
 
   const getInitials = (email: string | null) => {
     if (!email) return 'U';
     return email.charAt(0).toUpperCase();
   };
+  
+  const loadUserData = () => {
+    if (typeof window !== 'undefined') {
+      const email = localStorage.getItem('userEmail');
+      const pic = localStorage.getItem('profilePicture');
+      setUserEmail(email);
+      setProfilePic(pic);
+    }
+  };
+
+  useEffect(() => {
+    loadUserData();
+    
+    // Listen for storage changes to update header UI in real-time
+    window.addEventListener('storage', loadUserData);
+    
+    return () => {
+      window.removeEventListener('storage', loadUserData);
+    };
+
+  }, []);
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('profilePicture');
     }
     router.push('/');
   };
@@ -119,7 +136,7 @@ export function Header() {
             className="overflow-hidden rounded-full"
           >
             <Avatar>
-              <AvatarImage src={`https://placehold.co/32x32.png?text=${getInitials(userEmail)}`} alt="User avatar" data-ai-hint="person face" />
+              <AvatarImage src={profilePic || undefined} alt="User avatar" data-ai-hint="person face" />
               <AvatarFallback>{getInitials(userEmail)}</AvatarFallback>
             </Avatar>
           </Button>
@@ -130,7 +147,7 @@ export function Header() {
             {userEmail && <p className="text-xs text-muted-foreground">{userEmail}</p>}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/settings')}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </DropdownMenuItem>
