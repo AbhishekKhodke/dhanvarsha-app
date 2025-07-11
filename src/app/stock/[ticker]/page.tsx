@@ -19,6 +19,7 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 import { getMarketIndex } from '@/ai/flows/get-market-indices-flow';
 import type { MarketIndex } from '@/ai/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 const stockDetails: Record<string, {name: string, sector: string, marketCap: string, peRatio: string, dividendYield: string, '52WeekHigh': string, '52WeekLow': string}> = {
     'NIFTY 50': { name: 'Nifty 50', sector: 'Index', marketCap: '₹150.7T', peRatio: '22.3', dividendYield: '1.2%', '52WeekHigh': '24,000.00', '52WeekLow': '18,000.00' },
@@ -132,33 +133,40 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
         <div className="md:col-span-2 lg:col-span-3">
           <Card className="mb-4">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-4">
-                     <Image src={stock.iconUrl} alt={`${stock.name} logo`} width={40} height={40} className="rounded-full" data-ai-hint={`${stock.name} logo`}/>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                   <Image src={stock.iconUrl} alt={`${stock.name} logo`} width={40} height={40} className="rounded-full" data-ai-hint={`${stock.name} logo`}/>
+                   <div>
                     <h1 className="text-3xl font-bold">{stock.name}</h1>
-                    <Badge variant="outline">{stock.ticker}</Badge>
-                    {details.sector && <Badge variant="secondary">{details.sector}</Badge>}
-                  </div>
-                  <CardDescription>
-                    Track and analyze stock performance.
-                  </CardDescription>
-                </div>
-                <div className="text-right">
-                  <p className="text-3xl font-bold">{stock.value}</p>
-                  <div
-                    className={`flex items-center justify-end gap-1 text-sm font-medium ${
-                      stock.isUp ? 'text-green-500' : 'text-red-500'
-                    }`}
-                  >
-                    {stock.isUp ? (
-                      <ArrowUp className="h-4 w-4" />
-                    ) : (
-                      <ArrowDown className="h-4 w-4" />
-                    )}
-                    <span>{stock.change}</span>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{stock.ticker}</Badge>
+                      {details.sector && <Badge variant="secondary">{details.sector}</Badge>}
+                    </div>
                   </div>
                 </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-3xl font-bold">{stock.value}</p>
+                    <div
+                      className={`flex items-center justify-end gap-1 text-sm font-medium ${
+                        stock.isUp ? 'text-green-500' : 'text-red-500'
+                      }`}
+                    >
+                      {stock.isUp ? (
+                        <ArrowUp className="h-4 w-4" />
+                      ) : (
+                        <ArrowDown className="h-4 w-4" />
+                      )}
+                      <span>{stock.change}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button className="bg-green-600 hover:bg-green-700 text-white">Buy</Button>
+                    <Button variant="destructive">Sell</Button>
+                  </div>
+                </div>
+
               </div>
             </CardHeader>
           </Card>
