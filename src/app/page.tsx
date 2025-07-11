@@ -19,12 +19,14 @@ import { Logo } from '@/components/logo';
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
 
   const handleLogin = () => {
     // In a real app, you'd perform authentication here.
-    // For this demo, we'll just navigate to the dashboard and save email.
+    // For this demo, we'll just navigate to the dashboard and save user info.
     if (typeof window !== 'undefined') {
       localStorage.setItem('userEmail', email || 'user@example.com');
+      localStorage.setItem('userName', name || 'User');
       // Clear previous user's picture on new login
       localStorage.removeItem('profilePicture');
     }
@@ -46,6 +48,16 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
+           <div className="grid gap-2">
+            <Label htmlFor="name">Full Name</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input

@@ -35,19 +35,22 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 
 export function Header() {
+  const [userName, setUserName] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const router = useRouter();
 
-  const getInitials = (email: string | null) => {
-    if (!email) return 'U';
-    return email.charAt(0).toUpperCase();
+  const getInitials = (name: string | null) => {
+    if (!name) return 'U';
+    return name.charAt(0).toUpperCase();
   };
   
   const loadUserData = () => {
     if (typeof window !== 'undefined') {
+      const name = localStorage.getItem('userName');
       const email = localStorage.getItem('userEmail');
       const pic = localStorage.getItem('profilePicture');
+      setUserName(name);
       setUserEmail(email);
       setProfilePic(pic);
     }
@@ -67,6 +70,7 @@ export function Header() {
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
+      localStorage.removeItem('userName');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('profilePicture');
     }
@@ -137,13 +141,17 @@ export function Header() {
           >
             <Avatar>
               <AvatarImage src={profilePic || undefined} alt="User avatar" data-ai-hint="person face" />
-              <AvatarFallback>{getInitials(userEmail)}</AvatarFallback>
+              <AvatarFallback>{getInitials(userName)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            <p className="font-medium">My Account</p>
+            {userName ? (
+              <p className="font-medium">{userName}</p>
+            ) : (
+              <p className="font-medium">My Account</p>
+            )}
             {userEmail && <p className="text-xs text-muted-foreground">{userEmail}</p>}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

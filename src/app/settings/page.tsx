@@ -18,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { User, Camera } from 'lucide-react';
 
 export default function SettingsPage() {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,17 +26,17 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const email = localStorage.getItem('userEmail');
+      const name = localStorage.getItem('userName');
       const pic = localStorage.getItem('profilePicture');
-      setUserEmail(email);
+      setUserName(name);
       setProfilePic(pic);
       setPreview(pic);
     }
   }, []);
 
-  const getInitials = (email: string | null) => {
-    if (!email) return 'U';
-    return email.charAt(0).toUpperCase();
+  const getInitials = (name: string | null) => {
+    if (!name) return 'U';
+    return name.charAt(0).toUpperCase();
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +96,7 @@ export default function SettingsPage() {
               <Avatar className="h-24 w-24">
                 <AvatarImage src={preview || ''} alt="User avatar" data-ai-hint="person face"/>
                 <AvatarFallback className="text-3xl">
-                  <User className="h-12 w-12" />
+                  {preview ? getInitials(userName) : <User className="h-12 w-12" />}
                 </AvatarFallback>
               </Avatar>
               <Button
