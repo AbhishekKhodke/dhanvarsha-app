@@ -25,6 +25,7 @@ import { GoogleIcon } from '@/components/google-icon';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(5, 'Password must be at least 5 characters'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -35,6 +36,7 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
+      password: '',
     },
   });
 
@@ -58,9 +60,9 @@ export default function LoginPage() {
   )
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4 animate-fade-in-down">
       <AnimatedBackground />
-      <Card className="w-full max-w-4xl shadow-2xl overflow-hidden z-10">
+      <Card className="w-full max-w-4xl shadow-2xl overflow-hidden z-10 animate-scale-in">
         <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="relative bg-primary text-primary-foreground p-12 flex-col justify-between hidden md:flex">
                 <div className="relative z-10">
@@ -97,6 +99,24 @@ export default function LoginPage() {
                               <Input
                                 type="email"
                                 placeholder="Your Email Address"
+                                className="h-12 text-base"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                       <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="sr-only">Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="Password"
                                 className="h-12 text-base"
                                 {...field}
                               />
