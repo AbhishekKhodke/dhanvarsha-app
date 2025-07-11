@@ -9,7 +9,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
 } from '@/components/ui/card';
 import {
     Table,
@@ -20,31 +19,26 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { MainLayout } from '@/components/main-layout';
-import { ArrowUpRight, ArrowDownRight, ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { getMarketIndices } from '@/ai/flows/get-market-indices-flow';
 import type { MarketIndex } from '@/ai/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
 
 
-const MarketIndexCard = ({ name, value, change, isUp, data, ticker }: MarketIndex) => (
+const MarketIndexCard = ({ name, value, change, isUp, data, ticker, iconUrl }: MarketIndex) => (
   <Link href={`/stock/${encodeURIComponent(ticker || name)}`} className="block">
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[180px]">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-        <CardTitle className="text-xs font-medium">{name}</CardTitle>
-        {isUp ? (
-          <ArrowUpRight className="h-4 w-4 text-green-500" />
-        ) : (
-          <ArrowDownRight className="h-4 w-4 text-red-500" />
-        )}
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[160px]">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
+        <Image src={iconUrl} alt={`${name} logo`} width={24} height={24} className="rounded-full" data-ai-hint={`${name} logo`}/>
+        <div className="flex-grow">
+          <CardTitle className="text-xs font-medium whitespace-nowrap">{name}</CardTitle>
+          <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
+        </div>
       </CardHeader>
       <CardContent className="pt-1">
         <div className="flex items-end justify-between">
-          <div>
-            <div className="text-base font-bold">{value}</div>
-            <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
-          </div>
+          <div className="text-sm font-bold">{value}</div>
           <div className="h-8 w-16">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
@@ -62,8 +56,12 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker }: MarketInde
                     <stop offset="5%" stopColor="#22C55E" stopOpacity={0.8}/>
                     <stop offset="95%" stopColor="#22C55E" stopOpacity={0}/>
                   </linearGradient>
+                   <linearGradient id="chartRed" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#EF4444" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                  </linearGradient>
                 </defs>
-                <Area type="monotone" dataKey="value" stroke="#22C55E" fillOpacity={1} fill="url(#chartGreen)" />
+                <Area type="monotone" dataKey="value" stroke={isUp ? "#22C55E" : "#EF4444"} fillOpacity={1} fill={isUp ? "url(#chartGreen)" : "url(#chartRed)"} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -74,16 +72,18 @@ const MarketIndexCard = ({ name, value, change, isUp, data, ticker }: MarketInde
 );
 
 const MarketIndexSkeleton = () => (
-    <Card className="shadow-lg min-w-[180px]">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
-            <Skeleton className="h-4 w-16" />
-            <Skeleton className="h-4 w-4" />
+    <Card className="shadow-lg min-w-[160px]">
+        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-1 gap-2">
+             <Skeleton className="h-6 w-6 rounded-full" />
+             <div className="flex-grow">
+                <Skeleton className="h-4 w-16 mb-1" />
+                <Skeleton className="h-3 w-12" />
+             </div>
         </CardHeader>
         <CardContent className="pt-1">
             <div className="flex items-end justify-between">
                 <div>
-                    <Skeleton className="h-5 w-20 mb-1" />
-                    <Skeleton className="h-3 w-16" />
+                    <Skeleton className="h-5 w-20" />
                 </div>
                 <div className="h-8 w-16">
                     <Skeleton className="h-full w-full" />
@@ -144,7 +144,6 @@ export default function DashboardPage() {
           <Card>
             <CardHeader>
                 <CardTitle>Top Stocks</CardTitle>
-                <CardDescription>A list of top-performing stocks in the market.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Table>
