@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -106,13 +107,17 @@ export default function StockPage({ params }: { params: { ticker: string } }) {
   
   useEffect(() => {
     const fetchData = async () => {
-        setLoading(true);
         const data = await getMarketIndex(ticker);
         setStock(data);
-        setLoading(false);
+        if (loading) {
+            setLoading(false);
+        }
     }
-    fetchData();
-  }, [ticker])
+    fetchData(); // Initial fetch
+    const intervalId = setInterval(fetchData, 5000); // Fetch every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, [ticker, loading])
 
   if(loading || !stock) {
       return <MainLayout><StockPageSkeleton /></MainLayout>

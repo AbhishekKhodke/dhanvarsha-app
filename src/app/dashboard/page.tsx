@@ -99,13 +99,18 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const result = await getMarketIndices();
       setData(result);
-      setLoading(false);
+      if (loading) {
+          setLoading(false);
+      }
     };
-    fetchData();
-  }, []);
+
+    fetchData(); // Initial fetch
+    const intervalId = setInterval(fetchData, 5000); // Fetch every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, [loading]);
 
   const indices = data.filter(d => ['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
   const stocks = data.filter(d => !['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
