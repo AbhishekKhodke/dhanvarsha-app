@@ -29,7 +29,7 @@ import { Badge } from '@/components/ui/badge';
 
 const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
   <Link href={`/stock/${encodeURIComponent(name)}`} className="block">
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[240px]">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px]">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-xs font-medium">{name}</CardTitle>
         {isUp ? (
@@ -41,10 +41,10 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
       <CardContent className="pt-2">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-xl font-bold">{value}</div>
+            <div className="text-lg font-bold">{value}</div>
             <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
           </div>
-          <div className="h-12 w-24">
+          <div className="h-10 w-20">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                  <RechartsTooltip
@@ -73,7 +73,7 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
 );
 
 const MarketIndexSkeleton = () => (
-    <Card className="shadow-lg min-w-[240px]">
+    <Card className="shadow-lg min-w-[200px]">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <Skeleton className="h-4 w-16" />
             <Skeleton className="h-4 w-4" />
@@ -81,10 +81,10 @@ const MarketIndexSkeleton = () => (
         <CardContent className="pt-2">
             <div className="flex items-end justify-between">
                 <div>
-                    <Skeleton className="h-6 w-24 mb-2" />
-                    <Skeleton className="h-3 w-20" />
+                    <Skeleton className="h-5 w-20 mb-2" />
+                    <Skeleton className="h-3 w-16" />
                 </div>
-                <div className="h-12 w-24">
+                <div className="h-10 w-20">
                     <Skeleton className="h-full w-full" />
                 </div>
             </div>
