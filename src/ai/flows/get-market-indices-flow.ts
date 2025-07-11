@@ -35,7 +35,7 @@ const generateChartData = (base: number, points = 7, isUp: boolean) => {
 
 
 const indicesData: Record<string, { name: string, baseValue: number; iconUrl: string }> = {
-    'NIFTY 50': { name: 'Nifty 50', baseValue: 23500, iconUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/NIFTY_50_logo.svg/1200px-NIFTY_50_logo.svg.png' },
+    'NIFTY 50': { name: 'Nifty 50', baseValue: 23500, iconUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/NIFTY_50_logo.svg/250px-NIFTY_50_logo.svg.png' },
     'SENSEX': { name: 'BSE Sensex', baseValue: 77200, iconUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/54/BSE_SENSEX.svg/1200px-BSE_SENSEX.svg.png' },
     'NIFTY BANK': { name: 'Nifty Bank', baseValue: 50500, iconUrl: 'https://cdn.upstox.com/indices/nifty-bank.png' },
     'RELIANCE.NS': { name: 'Reliance Industries', baseValue: 2900, iconUrl: 'https://logo.clearbit.com/ril.com' },
