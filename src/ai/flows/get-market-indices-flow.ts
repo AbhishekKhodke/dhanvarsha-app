@@ -4,6 +4,7 @@
  * @fileOverview A flow for fetching simulated live market index data.
  *
  * - getMarketIndices - A function that returns simulated data for major market indices.
+ * - getMarketIndex - A function that returns simulated data for a single market index.
  */
 
 import type { MarketIndex } from '@/ai/types';
@@ -35,11 +36,8 @@ const indicesData: Record<string, { baseValue: number; changeRange: number }> = 
     'NIFTY BANK': { baseValue: 50500, changeRange: 300 },
 };
 
-export async function getMarketIndices(): Promise<MarketIndex[]> {
-  const tickers = ['NIFTY 50', 'SENSEX', 'NIFTY BANK'];
-
-  return tickers.map(ticker => {
-    const { baseValue, changeRange } = indicesData[ticker];
+function generateIndexData(ticker: string): MarketIndex {
+    const { baseValue, changeRange } = indicesData[ticker] || { baseValue: 5000, changeRange: 100 };
     
     const randomChange = getRandom(-changeRange, changeRange);
     const isUp = randomChange >= 0;
@@ -60,5 +58,14 @@ export async function getMarketIndices(): Promise<MarketIndex[]> {
         isUp,
         data: generateChartData(baseValue, 7, isUp),
     };
-  });
+}
+
+
+export async function getMarketIndices(): Promise<MarketIndex[]> {
+  const tickers = ['NIFTY 50', 'SENSEX', 'NIFTY BANK'];
+  return tickers.map(ticker => generateIndexData(ticker));
+}
+
+export async function getMarketIndex(ticker: string): Promise<MarketIndex> {
+    return generateIndexData(ticker);
 }
