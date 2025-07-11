@@ -15,8 +15,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { User, Camera } from 'lucide-react';
+import { User, Camera, Moon, Sun } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import { useTheme } from 'next-themes';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 export default function SettingsPage() {
   const [userName, setUserName] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export default function SettingsPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -99,54 +102,80 @@ export default function SettingsPage() {
         <p className="text-muted-foreground">Manage your account settings and profile information.</p>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="md:col-span-1">
-          <CardHeader>
-            <CardTitle>Profile Picture</CardTitle>
-            <CardDescription>
-              Update your photo.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex flex-col items-center gap-4">
-              <div className="relative">
-                <Avatar className="h-32 w-32">
-                  <AvatarImage src={preview || ''} alt="User avatar" data-ai-hint="person face"/>
-                  <AvatarFallback className="text-5xl">
-                    {preview ? getInitials(userName) : <User className="h-16 w-16" />}
-                  </AvatarFallback>
-                </Avatar>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute bottom-1 right-1 rounded-full"
-                  onClick={() => fileInputRef.current?.click()}
+         <div className="md:col-span-3 lg:col-span-1 flex flex-col gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Profile Picture</CardTitle>
+                    <CardDescription>Update your photo.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="relative">
+                            <Avatar className="h-32 w-32">
+                                <AvatarImage src={preview || ''} alt="User avatar" data-ai-hint="person face" />
+                                <AvatarFallback className="text-5xl">
+                                    {preview ? getInitials(userName) : <User className="h-16 w-16" />}
+                                </AvatarFallback>
+                            </Avatar>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="absolute bottom-1 right-1 rounded-full"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <Camera className="h-4 w-4" />
+                                <span className="sr-only">Change picture</span>
+                            </Button>
+                        </div>
+                        <div className="w-full space-y-2">
+                            <Input
+                                id="picture"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="file:text-primary file:font-medium"
+                                ref={fileInputRef}
+                            />
+                            <p className="text-xs text-muted-foreground text-center">
+                                Max file size: 2MB.
+                            </p>
+                        </div>
+                    </div>
+                    {profilePic && (
+                        <Button variant="outline" onClick={handleRemovePicture} className="w-full">Remove Photo</Button>
+                    )}
+                </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Appearance</CardTitle>
+                <CardDescription>
+                  Choose how DhanVarsha looks to you.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ToggleGroup 
+                  type="single" 
+                  value={theme}
+                  onValueChange={(value) => value && setTheme(value)}
+                  className="w-full grid grid-cols-2 gap-4"
                 >
-                  <Camera className="h-4 w-4" />
-                  <span className="sr-only">Change picture</span>
-                </Button>
-              </div>
-              
-              <div className="w-full space-y-2">
-                  <Input
-                    id="picture"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="file:text-primary file:font-medium"
-                    ref={fileInputRef}
-                  />
-                  <p className="text-xs text-muted-foreground text-center">
-                      Max file size: 2MB.
-                  </p>
-              </div>
-            </div>
-             {profilePic && (
-                <Button variant="outline" onClick={handleRemovePicture} className="w-full">Remove Photo</Button>
-            )}
-          </CardContent>
-        </Card>
+                  <ToggleGroupItem value="light" aria-label="Light mode" className="flex flex-col gap-2 h-24">
+                    <Sun className="h-6 w-6" />
+                    <span>Light</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="dark" aria-label="Dark mode" className="flex flex-col gap-2 h-24">
+                    <Moon className="h-6 w-6" />
+                    <span>Dark</span>
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </CardContent>
+            </Card>
+
+        </div>
         
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-3 lg:col-span-2">
             <CardHeader>
             <CardTitle>Personal Information</CardTitle>
             <CardDescription>
