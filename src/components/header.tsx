@@ -14,6 +14,12 @@ import {
   LogOut,
   Settings,
   Wallet,
+  FileText,
+  Landmark,
+  Headset,
+  FilePieChart,
+  ChevronRight,
+  Moon,
 } from 'lucide-react';
 
 import {
@@ -34,6 +40,7 @@ import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 export function Header() {
   const [userName, setUserName] = useState<string | null>(null);
@@ -41,6 +48,7 @@ export function Header() {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   const getInitials = (name: string | null) => {
     if (!name) return 'U';
@@ -83,6 +91,13 @@ export function Header() {
   };
 
   const formattedBalance = balance ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(balance)) : '₹0.00';
+
+  const menuItems = [
+    { icon: FileText, label: "All Orders", href: "#" },
+    { icon: Landmark, label: "Bank Details", href: "#" },
+    { icon: Headset, label: "24 x 7 Customer Support", href: "#" },
+    { icon: FilePieChart, label: "Reports", href: "#" },
+  ];
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -154,36 +169,45 @@ export function Header() {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>
-            {userName ? (
-              <p className="font-medium">{userName}</p>
-            ) : (
-              <p className="font-medium">My Account</p>
-            )}
-            {userEmail && <p className="text-xs text-muted-foreground">{userEmail}</p>}
-          </DropdownMenuLabel>
+        <DropdownMenuContent align="end" className="w-64">
+           <div className="flex items-center justify-between p-2">
+            <div>
+              <p className="font-medium">{userName || 'My Account'}</p>
+              <p className="text-xs text-muted-foreground">{userEmail}</p>
+            </div>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => router.push('/settings')}>
+                <Settings className="h-4 w-4" />
+            </Button>
+           </div>
+           <DropdownMenuSeparator />
+            <DropdownMenuItem className="p-2 cursor-pointer">
+              <Wallet className="mr-3 h-5 w-5 text-muted-foreground" />
+              <div className="flex-grow">
+                <p className="font-medium">{formattedBalance}</p>
+                <p className="text-xs text-muted-foreground">Stocks, F&O balance</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            </DropdownMenuItem>
+           <DropdownMenuSeparator />
+           {menuItems.map((item) => (
+             <DropdownMenuItem key={item.label} className="p-2 cursor-pointer" onClick={() => router.push(item.href)}>
+                <item.icon className="mr-3 h-5 w-5 text-muted-foreground" />
+                <span className="flex-grow">{item.label}</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+             </DropdownMenuItem>
+           ))}
           <DropdownMenuSeparator />
-           <DropdownMenuItem className="cursor-default focus:bg-transparent focus:text-accent-foreground">
-             <div className="flex items-center justify-between w-full">
+           <div className="p-2">
+            <div className="flex items-center justify-between rounded-lg p-2 hover:bg-accent cursor-pointer" onClick={handleLogout}>
                 <div className="flex items-center">
-                    <Wallet className="mr-2 h-4 w-4" />
-                    <span>Balance</span>
+                    <Moon className="mr-3 h-5 w-5 text-muted-foreground" />
+                    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+                      Theme
+                    </button>
                 </div>
-                <span className="font-mono text-sm">{formattedBalance}</span>
-             </div>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push('/settings')}>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Logout</span>
-          </DropdownMenuItem>
+                <Button variant="link" className="p-0 h-auto text-sm text-foreground hover:no-underline">Log out</Button>
+            </div>
+           </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
