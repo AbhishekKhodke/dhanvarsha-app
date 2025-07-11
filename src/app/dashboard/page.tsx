@@ -60,7 +60,7 @@ const indices = [
 ];
 
 const MarketIndexCard = ({ name, value, change, isUp, data }: (typeof indices)[0]) => (
-  <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px]">
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
       <CardTitle className="text-sm font-medium">{name}</CardTitle>
       {isUp ? (
@@ -106,7 +106,7 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">Welcome back! Here's a look at the market today.</p>
        </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="flex gap-4 overflow-x-auto pb-4">
         {indices.map((index) => (
           <MarketIndexCard key={index.name} {...index} />
         ))}
