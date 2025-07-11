@@ -6,9 +6,9 @@ import Link from 'next/link';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription
 } from '@/components/ui/card';
 import {
     Table,
@@ -27,10 +27,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 
 
-const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
-  <Link href={`/stock/${encodeURIComponent(name)}`} className="block">
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[200px]">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+const MarketIndexCard = ({ name, value, change, isUp, data, ticker }: MarketIndex) => (
+  <Link href={`/stock/${encodeURIComponent(ticker || name)}`} className="block">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[180px]">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
         <CardTitle className="text-xs font-medium">{name}</CardTitle>
         {isUp ? (
           <ArrowUpRight className="h-4 w-4 text-green-500" />
@@ -38,13 +38,13 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
           <ArrowDownRight className="h-4 w-4 text-red-500" />
         )}
       </CardHeader>
-      <CardContent className="pt-2">
+      <CardContent className="pt-1">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-lg font-bold">{value}</div>
+            <div className="text-base font-bold">{value}</div>
             <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
           </div>
-          <div className="h-10 w-20">
+          <div className="h-8 w-16">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                  <RechartsTooltip
@@ -73,18 +73,18 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
 );
 
 const MarketIndexSkeleton = () => (
-    <Card className="shadow-lg min-w-[200px]">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="shadow-lg min-w-[180px]">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
             <Skeleton className="h-4 w-16" />
             <Skeleton className="h-4 w-4" />
         </CardHeader>
-        <CardContent className="pt-2">
+        <CardContent className="pt-1">
             <div className="flex items-end justify-between">
                 <div>
-                    <Skeleton className="h-5 w-20 mb-2" />
+                    <Skeleton className="h-5 w-20 mb-1" />
                     <Skeleton className="h-3 w-16" />
                 </div>
-                <div className="h-10 w-20">
+                <div className="h-8 w-16">
                     <Skeleton className="h-full w-full" />
                 </div>
             </div>
@@ -112,8 +112,8 @@ export default function DashboardPage() {
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [loading]);
 
-  const indices = data.filter(d => ['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
-  const stocks = data.filter(d => !['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.name));
+  const indices = data.filter(d => ['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.ticker || ''));
+  const stocks = data.filter(d => !['NIFTY 50', 'SENSEX', 'NIFTY BANK'].includes(d.ticker || ''));
 
   return (
     <MainLayout>
@@ -133,7 +133,7 @@ export default function DashboardPage() {
               </>
             ) : (
               indices.map((index) => (
-                <MarketIndexCard key={index.name} {...index} />
+                <MarketIndexCard key={index.ticker} {...index} />
               ))
             )}
           </div>
@@ -165,9 +165,12 @@ export default function DashboardPage() {
                             ))
                          ) : (
                             stocks.map((stock) => (
-                                <TableRow key={stock.name} className="cursor-pointer">
+                                <TableRow key={stock.ticker} className="cursor-pointer">
                                     <TableCell>
-                                        <Link href={`/stock/${encodeURIComponent(stock.name)}`} className="font-medium hover:underline">{stock.name}</Link>
+                                        <Link href={`/stock/${encodeURIComponent(stock.ticker || stock.name)}`} className="font-medium hover:underline">
+                                          <div>{stock.name}</div>
+                                          <div className="text-xs text-muted-foreground">{stock.ticker}</div>
+                                        </Link>
                                     </TableCell>
                                     <TableCell className="text-right font-mono">{stock.value}</TableCell>
                                     <TableCell className={`flex items-center justify-end gap-1 text-right font-mono ${stock.isUp ? 'text-green-500' : 'text-red-500'}`}>

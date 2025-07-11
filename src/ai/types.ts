@@ -1,6 +1,8 @@
+
 import { z } from 'genkit';
 
 export const MarketIndexSchema = z.object({
+  ticker: z.string(),
   name: z.string(),
   value: z.string(),
   change: z.string(),

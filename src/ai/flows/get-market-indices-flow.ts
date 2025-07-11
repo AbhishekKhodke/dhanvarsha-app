@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -30,25 +31,25 @@ const generateChartData = (base: number, points = 7, isUp: boolean) => {
 };
 
 
-const indicesData: Record<string, { baseValue: number; changeRange: number }> = {
-    'NIFTY 50': { baseValue: 23500, changeRange: 200 },
-    'SENSEX': { baseValue: 77200, changeRange: 650 },
-    'NIFTY BANK': { baseValue: 50500, changeRange: 300 },
-    'RELIANCE': { baseValue: 2900, changeRange: 50 },
-    'HDFCBANK': { baseValue: 1600, changeRange: 40 },
-    'ICICIBANK': { baseValue: 1100, changeRange: 30 },
-    'INFY': { baseValue: 1500, changeRange: 35 },
-    'TCS': { baseValue: 3800, changeRange: 70 },
-    'HINDUNILVR': { baseValue: 2500, changeRange: 60 },
-    'ITC': { baseValue: 430, changeRange: 15 },
-    'KOTAKBANK': { baseValue: 1750, changeRange: 45 },
-    'SBIN': { baseValue: 840, changeRange: 25 },
-    'AXISBANK': { baseValue: 1200, changeRange: 30 },
-    'LT': { baseValue: 3500, changeRange: 80 },
+const indicesData: Record<string, { name: string, baseValue: number; changeRange: number }> = {
+    'NIFTY 50': { name: 'Nifty 50', baseValue: 23500, changeRange: 200 },
+    'SENSEX': { name: 'BSE Sensex', baseValue: 77200, changeRange: 650 },
+    'NIFTY BANK': { name: 'Nifty Bank', baseValue: 50500, changeRange: 300 },
+    'RELIANCE.NS': { name: 'Reliance Industries', baseValue: 2900, changeRange: 50 },
+    'HDFCBANK.NS': { name: 'HDFC Bank', baseValue: 1600, changeRange: 40 },
+    'ICICIBANK.NS': { name: 'ICICI Bank', baseValue: 1100, changeRange: 30 },
+    'INFY.NS': { name: 'Infosys', baseValue: 1500, changeRange: 35 },
+    'TCS.NS': { name: 'Tata Consultancy Services', baseValue: 3800, changeRange: 70 },
+    'HINDUNILVR.NS': { name: 'Hindustan Unilever', baseValue: 2500, changeRange: 60 },
+    'ITC.NS': { name: 'ITC Limited', baseValue: 430, changeRange: 15 },
+    'KOTAKBANK.NS': { name: 'Kotak Mahindra Bank', baseValue: 1750, changeRange: 45 },
+    'SBIN.NS': { name: 'State Bank of India', baseValue: 840, changeRange: 25 },
+    'AXISBANK.NS': { name: 'Axis Bank', baseValue: 1200, changeRange: 30 },
+    'LT.NS': { name: 'Larsen & Toubro', baseValue: 3500, changeRange: 80 },
 };
 
 function generateIndexData(ticker: string): MarketIndex {
-    const { baseValue, changeRange } = indicesData[ticker] || { baseValue: 1000, changeRange: 50 };
+    const { name, baseValue, changeRange } = indicesData[ticker] || { name: ticker, baseValue: 1000, changeRange: 50 };
     
     const randomChange = getRandom(-changeRange, changeRange);
     const isUp = randomChange >= 0;
@@ -63,7 +64,8 @@ function generateIndexData(ticker: string): MarketIndex {
     const formattedChange = `${isUp ? '+' : ''}${randomChange.toFixed(2)} (${isUp ? '+' : ''}${changePercent.toFixed(2)}%)`;
 
     return {
-        name: ticker,
+        ticker,
+        name,
         value: formattedValue,
         change: formattedChange,
         isUp,
@@ -73,20 +75,7 @@ function generateIndexData(ticker: string): MarketIndex {
 
 
 export async function getMarketIndices(): Promise<MarketIndex[]> {
-  const tickers = [
-    'NIFTY 50', 
-    'SENSEX', 
-    'NIFTY BANK', 
-    'RELIANCE', 
-    'HDFCBANK', 
-    'ICICIBANK',
-    'INFY',
-    'TCS',
-    'SBIN',
-    'KOTAKBANK',
-    'AXISBANK',
-    'LT'
-  ];
+  const tickers = Object.keys(indicesData);
   return tickers.map(ticker => generateIndexData(ticker));
 }
 
