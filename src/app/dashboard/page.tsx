@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -28,29 +29,32 @@ import { Badge } from '@/components/ui/badge';
 
 const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
   <Link href={`/stock/${encodeURIComponent(name)}`} className="block">
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px]">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[240px]">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{name}</CardTitle>
+        <CardTitle className="text-xs font-medium">{name}</CardTitle>
         {isUp ? (
           <ArrowUpRight className="h-4 w-4 text-green-500" />
         ) : (
           <ArrowDownRight className="h-4 w-4 text-red-500" />
         )}
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-2">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-2xl font-bold">{value}</div>
+            <div className="text-xl font-bold">{value}</div>
             <p className={`text-xs ${isUp ? 'text-green-500' : 'text-red-500'}`}>{change}</p>
           </div>
-          <div className="h-16 w-32">
+          <div className="h-12 w-24">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 5 }}>
+              <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                  <RechartsTooltip
                   contentStyle={{
                     backgroundColor: 'hsl(var(--background))',
                     borderColor: 'hsl(var(--border))',
+                    fontSize: '12px',
+                    padding: '4px 8px'
                   }}
+                  labelStyle={{ display: 'none' }}
                 />
                 <defs>
                    <linearGradient id={isUp ? "colorUv" : "colorPv" } x1="0" y1="0" x2="0" y2="1">
@@ -69,18 +73,18 @@ const MarketIndexCard = ({ name, value, change, isUp, data }: MarketIndex) => (
 );
 
 const MarketIndexSkeleton = () => (
-    <Card className="shadow-lg min-w-[300px]">
+    <Card className="shadow-lg min-w-[240px]">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-16" />
             <Skeleton className="h-4 w-4" />
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-2">
             <div className="flex items-end justify-between">
                 <div>
-                    <Skeleton className="h-8 w-32 mb-2" />
-                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-6 w-24 mb-2" />
+                    <Skeleton className="h-3 w-20" />
                 </div>
-                <div className="h-16 w-32">
+                <div className="h-12 w-24">
                     <Skeleton className="h-full w-full" />
                 </div>
             </div>
