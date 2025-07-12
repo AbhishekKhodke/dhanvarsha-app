@@ -4,58 +4,58 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White */
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 140 55% 85%; /* Different Light Green */
-    --primary-foreground: 140 60% 10%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 224 71.4% 4.1%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 240 5% 96%;
-    --accent-foreground: 224 71.4% 4.1%;
+    --background: 40 50% 92.7%; /* Light Sand (#F4EAD5) */
+    --foreground: 24 54% 30%; /* Rich Brown (#8B4513) */
+    --card: 40 50% 92.7%;
+    --card-foreground: 24 54% 30%;
+    --popover: 40 50% 92.7%;
+    --popover-foreground: 24 54% 30%;
+    --primary: 30 100% 60%; /* Deep Saffron (#FF9933) */
+    --primary-foreground: 24 54% 20%;
+    --secondary: 40 40% 88%;
+    --secondary-foreground: 24 54% 30%;
+    --muted: 40 40% 88%;
+    --muted-foreground: 24 54% 50%;
+    --accent: 24 54% 30%; /* Rich Brown (#8B4513) */
+    --accent-foreground: 40 50% 92.7%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 224 71.4% 4.1%;
-    --chart-1: 224 71.4% 4.1%;
-    --chart-2: 210 40% 96.1%;
+    --border: 30 100% 80%;
+    --input: 30 100% 85%;
+    --ring: 30 100% 60%;
+    --chart-1: 24 54% 30%;
+    --chart-2: 30 100% 70%;
     --chart-3: 0 72.2% 50.6%;
-    --chart-4: 214.3 31.8% 91.4%;
-    --chart-5: 142.1 76.2% 36.3%;
+    --chart-4: 40 40% 88%;
+    --chart-5: 30 100% 60%;
     --radius: 0.5rem;
   }
  
   .dark {
-    --background: 240 5% 5%; /* Near Black */
-    --foreground: 0 0% 98%; /* White */
-    --card: 240 5% 8%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 5% 5%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 140 70% 15%; /* Dark Green */
-    --primary-foreground: 0 0% 98%; /* White */
-    --secondary: 140 70% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 140 70% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 140 70% 20%;
-    --accent-foreground: 0 0% 98%;
+    --background: 24 54% 10%; /* Dark Brown */
+    --foreground: 40 50% 92.7%; /* Light Sand */
+    --card: 24 54% 12%;
+    --card-foreground: 40 50% 92.7%;
+    --popover: 24 54% 10%;
+    --popover-foreground: 40 50% 92.7%;
+    --primary: 30 100% 60%; /* Deep Saffron (#FF9933) */
+    --primary-foreground: 24 54% 10%;
+    --secondary: 24 54% 15%;
+    --secondary-foreground: 40 50% 92.7%;
+    --muted: 24 54% 15%;
+    --muted-foreground: 40 50% 80%;
+    --accent: 30 100% 60%; /* Deep Saffron */
+    --accent-foreground: 24 54% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 15%;
-    --input: 240 5% 15%;
-    --ring: 140 70% 40%;
-    --chart-1: 0 0% 98%;
-    --chart-2: 240 6% 10%;
+    --border: 24 54% 20%;
+    --input: 24 54% 20%;
+    --ring: 30 100% 70%;
+    --chart-1: 40 50% 92.7%;
+    --chart-2: 24 54% 20%;
     --chart-3: 0 72.2% 50.6%;
-    --chart-4: 240 4.9% 83.9%;
-    --chart-5: 142.1 76.2% 36.3%;
+    --chart-4: 40 50% 80%;
+    --chart-5: 30 100% 60%;
   }
 }
  
