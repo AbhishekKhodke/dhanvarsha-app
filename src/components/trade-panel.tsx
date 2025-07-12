@@ -74,9 +74,9 @@ export function TradePanel({ stock, action, onClose }: TradePanelProps) {
         <div className="p-1 space-y-4">
             <div className="flex justify-between items-center">
                 <ToggleGroup type="single" value={tradeType} onValueChange={(value) => value && setTradeType(value)} className="space-x-1">
-                    <ToggleGroupItem value="delivery" aria-label="Delivery" className="rounded-full data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">Delivery</ToggleGroupItem>
-                    <ToggleGroupItem value="intraday" aria-label="Intraday" className="rounded-full data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">Intraday</ToggleGroupItem>
-                    <ToggleGroupItem value="mtf" aria-label="MTF" className="rounded-full data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">MTF</ToggleGroupItem>
+                    <ToggleGroupItem value="delivery" aria-label="Delivery" className="rounded-full">Delivery</ToggleGroupItem>
+                    <ToggleGroupItem value="intraday" aria-label="Intraday" className="rounded-full">Intraday</ToggleGroupItem>
+                    <ToggleGroupItem value="mtf" aria-label="MTF" className="rounded-full">MTF</ToggleGroupItem>
                 </ToggleGroup>
                 <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
             </div>
