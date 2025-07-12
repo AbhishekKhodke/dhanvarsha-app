@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { GoogleIcon } from '@/components/google-icon';
+import { Logo } from '@/components/logo';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -82,7 +83,8 @@ export default function LoginPage() {
       <AnimatedBackground />
       <Card className="w-full max-w-4xl shadow-2xl overflow-hidden z-10 animate-scale-in bg-card">
         <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="relative bg-primary text-primary-foreground p-12 flex-col justify-between hidden md:flex">
+            <div className="relative bg-primary text-primary-foreground p-12 flex flex-col justify-between hidden md:flex">
+                <Logo />
                 <div className="relative z-10">
                     <h2 className="text-4xl font-bold tracking-tight">Simple, Free</h2>
                     <h2 className="text-4xl font-bold tracking-tight">Investing.</h2>

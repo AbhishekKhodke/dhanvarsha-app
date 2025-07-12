@@ -1,7 +1,7 @@
 export function Logo() {
   return (
     <div className="flex items-center gap-2" aria-label="DhanVarsha Home">
-      <div className="bg-white p-1 rounded-lg">
+      <div className="bg-primary-foreground p-1 rounded-lg">
         <svg
           className="h-8 w-8"
           viewBox="0 0 24 24"
@@ -32,13 +32,13 @@ export function Logo() {
               x2="1"
               y2="1"
             >
-              <stop offset="0%" stopColor="#22C55E" />
-              <stop offset="100%" stopColor="#4ADE80" />
+              <stop offset="0%" stopColor="#16A34A" />
+              <stop offset="100%" stopColor="#22C55E" />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <span className="text-xl font-bold text-foreground tracking-wider">
+      <span className="text-xl font-bold text-primary-foreground tracking-wider">
         DhanVarsha
       </span>
     </div>
