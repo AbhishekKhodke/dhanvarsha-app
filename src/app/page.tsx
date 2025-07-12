@@ -22,6 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { GoogleIcon } from '@/components/google-icon';
 import { Logo } from '@/components/logo';
+import { Eye, EyeOff } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -43,6 +44,7 @@ const fundTypes = [
 export default function LoginPage() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
   
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -136,12 +138,22 @@ export default function LoginPage() {
                           <FormItem>
                             <FormLabel className="sr-only">Password</FormLabel>
                             <FormControl>
-                              <Input
-                                type="password"
-                                placeholder="Password"
-                                className="h-12 text-base"
-                                {...field}
-                              />
+                              <div className="relative">
+                                <Input
+                                  type={showPassword ? 'text' : 'password'}
+                                  placeholder="Password"
+                                  className="h-12 text-base pr-10"
+                                  {...field}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => setShowPassword((prev) => !prev)}
+                                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                >
+                                  {showPassword ? <EyeOff /> : <Eye />}
+                                </button>
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
